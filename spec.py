@@ -3,7 +3,7 @@ from doublex import Stub, when
 from expects import expect, equal
 
 from projects_finder import ProjectsFinder
-from outdated_packages_reporter import OutdatedPackagesReporter
+from outdated_packages_reporter import OutdatedPackagesReporter, NO_PROJECTS_FOUND_MESSAGE
 
 EMPTY_PROJECTS_LIST = []
 
@@ -16,4 +16,4 @@ with description('Outdated packages reporter'):
 
             report = reporter.generate_report()
 
-            expect(report).to(equal('No projects found'))
+            expect(report).to(equal(NO_PROJECTS_FOUND_MESSAGE))

@@ -6,7 +6,7 @@ class RequirementsFinder:
     def find_all(self):
         projects = self.projects_finder.find_all()
         if len(projects) > 0:
-            return ['paso el test']  
+            return ['']  
         else:
             return []
         pass

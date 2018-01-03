@@ -6,10 +6,12 @@ from projects_finder import ProjectsFinder
 from requirements_finder import RequirementsFinder
 from outdated_packages_reporter import (OutdatedPackagesReporter,
                                         NO_PROJECTS_FOUND_MESSAGE,
-                                        NO_REQUIREMENTS_MESSAGE)
+                                        NO_REQUIREMENTS_MESSAGE,
+                                        ALL_REQUIREMENTS_UP_TO_DATE)
 
 EMPTY_PROJECTS_LIST = []
-A_PROJECT_LIST = ['first_project_name']
+A_LIST_OF_PROJECTS_WITHOUT_REQUIREMENTS = ['project_without_requirements_1']
+A_LIST_OF_PROJECTS_WITH_UP_TO_DATE_REQUIREMENTS = ['project_with_up_to_date_requirements_1']
 
 with description('Outdated packages reporter') as self:
     with before.each:
@@ -28,8 +30,17 @@ with description('Outdated packages reporter') as self:
     with context('when projects found'):
         with context('without requirements'):
             with it('reports no requirements found message'):
-                when(self.projects_finder).find_all().returns(A_PROJECT_LIST)
+                when(self.projects_finder).find_all().returns(A_LIST_OF_PROJECTS_WITHOUT_REQUIREMENTS)
 
                 report = self.reporter.generate_report()
 
                 expect(report).to(equal(NO_REQUIREMENTS_MESSAGE))
+
+        with context('with some requirements'):
+            with context('all requirements up to date'):
+                with it('reports all requirements up to date message'):
+                    when(self.projects_finder).find_all().returns(A_LIST_OF_PROJECTS_WITH_UP_TO_DATE_REQUIREMENTS)
+
+                    report = self.reporter.generate_report()
+                    
+                    expect(report).to(equal(ALL_REQUIREMENTS_UP_TO_DATE))

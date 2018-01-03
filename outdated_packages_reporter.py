@@ -1,5 +1,6 @@
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
 NO_REQUIREMENTS_MESSAGE = 'No requirements found'
+ALL_REQUIREMENTS_UP_TO_DATE = 'All requirements up to date'
 
 class OutdatedPackagesReporter:
 

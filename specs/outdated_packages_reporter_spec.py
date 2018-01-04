@@ -5,6 +5,7 @@ from expects import expect, equal
 from projects_finder import ProjectsFinder
 from project import Project
 from project_report import ProjectReport
+from report import Report
 from version_checker import VersionChecker
 from outdated_packages_reporter import (OutdatedPackagesReporter,
                                         NO_PROJECTS_FOUND_MESSAGE)
@@ -26,7 +27,7 @@ with description('Outdated packages reporter') as self:
 
             report = self.reporter.generate_report()
 
-            expect(report).to(equal(NO_PROJECTS_FOUND_MESSAGE))
+            expect(report.message).to(equal(NO_PROJECTS_FOUND_MESSAGE))
 
     with context('when projects found'):
         with context('all requirements up to date'):
@@ -34,7 +35,7 @@ with description('Outdated packages reporter') as self:
                 when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_REQUIREMENTS])
                 report = self.reporter.generate_report()
                 
-                expect(report).to(equal([]))
+                expect(report.projects_reports).to(equal([]))
 
         with context('A requirements is outdated'):
             with it('reports the project outdated and the requirement'):
@@ -43,5 +44,5 @@ with description('Outdated packages reporter') as self:
 
                 report = self.reporter.generate_report()
 
-                expected_report = [ProjectReport(project_name=PROJECT_WITH_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])]
-                expect(report).to(equal(expected_report))
+                expected_projects_reports = [ProjectReport(project_name=PROJECT_WITH_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])]
+                expect(report.projects_reports).to(equal(expected_projects_reports))

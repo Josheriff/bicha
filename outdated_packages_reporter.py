@@ -1,3 +1,4 @@
+from report import Report
 from project_report import ProjectReport
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
 
@@ -8,16 +9,17 @@ class OutdatedPackagesReporter:
         self.version_checker = version_checker
 
     def generate_report(self):
+        report = Report()
         projects = self.projects_finder.find_all()
         if len(projects) == 0:
-            return NO_PROJECTS_FOUND_MESSAGE
+            report.message = NO_PROJECTS_FOUND_MESSAGE
         else:
-           return [self._generate_report_for_project(project) for project in projects if self._has_outdated_requirements(project)]
-            
-    def _has_outdated_requirements(self, project):
-        project_report = self._generate_report_for_project(project)
-        return self._any_outdated_requirement(project_report)
-              
+            for project in projects:
+                project_report = self._generate_report_for_project(project)
+                if self._any_outdated_requirement(project_report):
+                    report.add_project_report(project_report)
+        return report
+               
     def _generate_report_for_project(self, project):
         project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
         project_report.outdated_requirements = self._find_outdated_requirements(project.requirements)

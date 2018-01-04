@@ -1,5 +1,5 @@
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
-ALL_REQUIREMENTS_UP_TO_DATE = 'All requirements up to date'
+ALL_PROJECTS_UP_TO_DATE = 'All projects up to date'
 
 class OutdatedPackagesReporter:
 
@@ -11,4 +11,4 @@ class OutdatedPackagesReporter:
         if len(projects) == 0:
             return NO_PROJECTS_FOUND_MESSAGE
         else:
-            return ALL_REQUIREMENTS_UP_TO_DATE
+            return ALL_PROJECTS_UP_TO_DATE

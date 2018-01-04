@@ -1,6 +1,5 @@
 from project_report import ProjectReport
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
-ALL_PROJECTS_UP_TO_DATE = 'All projects up to date'
 
 class OutdatedPackagesReporter:
 
@@ -20,14 +19,13 @@ class OutdatedPackagesReporter:
                     report.append(project_report)
             return report
 
+    def _generate_report_for_project(self, project):
+        project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
+        project_report.outdated_requirements = self._find_outdated_requirements(project.requirements)
+        return project_report
+
     def _find_outdated_requirements(self, requirements):
         return [requirement for requirement in requirements if self.version_checker.is_outdated(requirement)]
 
     def _any_outdated_requirement(self, project_report):
         return len(project_report.outdated_requirements) > 0
-
-    def _generate_report_for_project(self, project):
-        project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
-        project_report.outdated_requirements = self._find_outdated_requirements(project.requirements)
-        return project_report
- 

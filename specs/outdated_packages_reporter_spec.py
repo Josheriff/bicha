@@ -7,8 +7,7 @@ from project import Project
 from project_report import ProjectReport
 from version_checker import VersionChecker
 from outdated_packages_reporter import (OutdatedPackagesReporter,
-                                        NO_PROJECTS_FOUND_MESSAGE,
-                                        ALL_PROJECTS_UP_TO_DATE)
+                                        NO_PROJECTS_FOUND_MESSAGE)
 
 EMPTY_PROJECTS_LIST = []
 PROJECT_WITH_UP_TO_DATE_REQUIREMENTS = Project(project_name='project_with_up_to_date_requirements', requirements=['an_up_to_date_requirement'])

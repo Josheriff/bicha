@@ -12,13 +12,12 @@ class OutdatedPackagesReporter:
         if len(projects) == 0:
             return NO_PROJECTS_FOUND_MESSAGE
         else:
-            report = []
-            for project in projects:
-                project_report = self._generate_report_for_project(project)
-                if self._any_outdated_requirement(project_report):
-                    report.append(project_report)
-            return report
-
+           return [self._generate_report_for_project(project) for project in projects if self._has_outdated_requirements(project)]
+            
+    def _has_outdated_requirements(self, project):
+        project_report = self._generate_report_for_project(project)
+        return self._any_outdated_requirement(project_report)
+              
     def _generate_report_for_project(self, project):
         project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
         project_report.outdated_requirements = self._find_outdated_requirements(project.requirements)

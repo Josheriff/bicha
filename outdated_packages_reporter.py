@@ -15,10 +15,19 @@ class OutdatedPackagesReporter:
         else:
             report = []
             for project in projects:
-                project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
-                for requirement in project.requirements:
-                    if self.version_checker.is_outdated(requirement):
-                        project_report.outdated_requirements.append(requirement)
-                if len(project_report.outdated_requirements) > 0:
+                project_report = self._generate_report_for_project(project)
+                if self._any_outdated_requirement(project_report):
                     report.append(project_report)
             return report
+
+    def _find_outdated_requirements(self, requirements):
+        return [requirement for requirement in requirements if self.version_checker.is_outdated(requirement)]
+
+    def _any_outdated_requirement(self, project_report):
+        return len(project_report.outdated_requirements) > 0
+
+    def _generate_report_for_project(self, project):
+        project_report = ProjectReport(project_name=project.project_name, outdated_requirements=[])
+        project_report.outdated_requirements = self._find_outdated_requirements(project.requirements)
+        return project_report
+ 

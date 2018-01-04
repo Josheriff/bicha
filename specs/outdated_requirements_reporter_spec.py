@@ -7,7 +7,7 @@ from project import Project
 from project_report import ProjectReport
 from report import Report
 from version_checker import VersionChecker
-from outdated_packages_reporter import (OutdatedPackagesReporter,
+from outdated_requirements_reporter import (OutdatedRequirementsReporter,
                                         NO_PROJECTS_FOUND_MESSAGE)
 
 EMPTY_PROJECTS_LIST = []
@@ -15,11 +15,11 @@ PROJECT_WITH_UP_TO_DATE_REQUIREMENTS = Project(project_name='project_with_up_to_
 OUTDATED_REQUIREMENT = 'an_outdated_requirement'
 PROJECT_WITH_OUTDATED_REQUIREMENTS = Project(project_name='project_with_outdated_requirements', requirements=[OUTDATED_REQUIREMENT])
 
-with description('Outdated packages reporter') as self:
+with description('Outdated requirements reporter') as self:
     with before.each:
         self.projects_finder = Stub(ProjectsFinder)
         self.version_checker = Stub(VersionChecker)
-        self.reporter = OutdatedPackagesReporter(self.projects_finder, self.version_checker)
+        self.reporter = OutdatedRequirementsReporter(self.projects_finder, self.version_checker)
 
     with context('when NO projects found'):
         with it('reports no projects found message'):

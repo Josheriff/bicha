@@ -2,7 +2,7 @@ from report import Report
 from project_report import ProjectReport
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
 
-class OutdatedPackagesReporter:
+class OutdatedRequirementsReporter:
 
     def __init__(self, projects_finder, version_checker):
         self.projects_finder = projects_finder

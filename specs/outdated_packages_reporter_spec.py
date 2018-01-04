@@ -8,9 +8,6 @@ from outdated_packages_reporter import (OutdatedPackagesReporter,
                                         ALL_REQUIREMENTS_UP_TO_DATE)
 
 EMPTY_PROJECTS_LIST = []
-A_LIST_OF_PROJECTS_WITHOUT_REQUIREMENTS = ['project_without_requirements_1']
-A_LIST_OF_PROJECTS_WITH_UP_TO_DATE_REQUIREMENTS = ['project_with_up_to_date_requirements_1']
-PROJECT_WITHOUT_REQUIREMENTS = {'project_name':'project_without_requirements_name', 'requirements':[]}
 PROJECT_WITH_REQUIREMENTS = {'project_name':'project_with_requirements_name', 'requirements':['a_requirement']}
 
 with description('Outdated packages reporter') as self:
@@ -20,7 +17,7 @@ with description('Outdated packages reporter') as self:
 
     with context('when NO projects found'):
         with it('reports no projects found message'):
-            when(self.projects_finder).find_all().returns([])
+            when(self.projects_finder).find_all().returns(EMPTY_PROJECTS_LIST)
 
             report = self.reporter.generate_report()
 

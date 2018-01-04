@@ -2,7 +2,7 @@ from mamba import description, context, it, before
 from doublex import Stub, when
 from expects import expect, equal
 
-from requirements_finder import RequirementsFinder
+from projects_finder import ProjectsFinder
 from outdated_packages_reporter import (OutdatedPackagesReporter,
                                         NO_PROJECTS_FOUND_MESSAGE,
                                         NO_REQUIREMENTS_MESSAGE,
@@ -16,12 +16,12 @@ PROJECT_WITH_REQUIREMENTS = {'project_name':'project_with_requirements_name', 'r
 
 with description('Outdated packages reporter') as self:
     with before.each:
-        self.requirements_finder = Stub(RequirementsFinder)
-        self.reporter = OutdatedPackagesReporter(self.requirements_finder)
+        self.projects_finder = Stub(ProjectsFinder)
+        self.reporter = OutdatedPackagesReporter(self.projects_finder)
 
     with context('when NO projects found'):
         with it('reports no projects found message'):
-            when(self.requirements_finder).find_all().returns([])
+            when(self.projects_finder).find_all().returns([])
 
             report = self.reporter.generate_report()
 
@@ -30,7 +30,7 @@ with description('Outdated packages reporter') as self:
     with context('when projects found'):
         with context('without requirements'):
             with it('reports no requirements found message'):
-                when(self.requirements_finder).find_all().returns([PROJECT_WITHOUT_REQUIREMENTS])
+                when(self.projects_finder).find_all().returns([PROJECT_WITHOUT_REQUIREMENTS])
 
                 report = self.reporter.generate_report()
 
@@ -39,7 +39,7 @@ with description('Outdated packages reporter') as self:
         with context('with some requirements'):
             with context('all requirements up to date'):
                 with it('reports all requirements up to date message'):
-                    when(self.requirements_finder).find_all().returns([PROJECT_WITH_REQUIREMENTS])
+                    when(self.projects_finder).find_all().returns([PROJECT_WITH_REQUIREMENTS])
                     report = self.reporter.generate_report()
                     
                     expect(report).to(equal(ALL_REQUIREMENTS_UP_TO_DATE))

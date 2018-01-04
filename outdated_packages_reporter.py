@@ -13,6 +13,6 @@ class OutdatedPackagesReporter:
             return NO_PROJECTS_FOUND_MESSAGE
         else:
             for project_requirements in projects_requirements:
-                if len(project_requirements.requirements) > 0:
+                if len(project_requirements['requirements']) > 0:
                     return ALL_REQUIREMENTS_UP_TO_DATE
             return NO_REQUIREMENTS_MESSAGE

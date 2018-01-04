@@ -29,7 +29,7 @@ with description('Outdated packages reporter') as self:
     with context('when projects found'):
         with context('without requirements'):
             with it('reports no requirements found message'):
-                when(self.requirements_finder).find_all().returns([ProjectRequirements(project_name='fulanito', requirements=[])])
+                when(self.requirements_finder).find_all().returns([{'project_name':'fulanito', 'requirements':[]}])
 
                 report = self.reporter.generate_report()
 
@@ -39,7 +39,7 @@ with description('Outdated packages reporter') as self:
             with context('all requirements up to date'):
                 with it('reports all requirements up to date message'):
                     requirements_finder = Stub(RequirementsFinder)
-                    when(requirements_finder).find_all().returns([ProjectRequirements(project_name='pepito', requirements=['hola'])])
+                    when(requirements_finder).find_all().returns([{'project_name':'fulanito', 'requirements':['hola']}])
                     reporter = OutdatedPackagesReporter(requirements_finder)
                     report = reporter.generate_report()
                     

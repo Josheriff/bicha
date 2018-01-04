@@ -2,7 +2,6 @@ from mamba import description, context, it, before
 from doublex import Stub, when
 from expects import expect, equal
 
-from projects_finder import ProjectsFinder
 from requirements_finder import RequirementsFinder
 from project_requirements import ProjectRequirements
 from outdated_packages_reporter import (OutdatedPackagesReporter,
@@ -16,7 +15,7 @@ A_LIST_OF_PROJECTS_WITH_UP_TO_DATE_REQUIREMENTS = ['project_with_up_to_date_requ
 
 with description('Outdated packages reporter') as self:
     with before.each:
-        self.requirements_finder = Stub(RequirementsFinder) 
+        self.requirements_finder = Stub(RequirementsFinder)
         self.reporter = OutdatedPackagesReporter(self.requirements_finder)
 
     with context('when NO projects found'):

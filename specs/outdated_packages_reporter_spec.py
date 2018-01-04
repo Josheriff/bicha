@@ -39,9 +39,7 @@ with description('Outdated packages reporter') as self:
         with context('with some requirements'):
             with context('all requirements up to date'):
                 with it('reports all requirements up to date message'):
-                    requirements_finder = Stub(RequirementsFinder)
-                    when(requirements_finder).find_all().returns([PROJECT_WITH_REQUIREMENTS])
-                    reporter = OutdatedPackagesReporter(requirements_finder)
-                    report = reporter.generate_report()
+                    when(self.requirements_finder).find_all().returns([PROJECT_WITH_REQUIREMENTS])
+                    report = self.reporter.generate_report()
                     
                     expect(report).to(equal(ALL_REQUIREMENTS_UP_TO_DATE))

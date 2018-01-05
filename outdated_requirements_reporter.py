@@ -1,5 +1,5 @@
-from report import Report
-from project_report import ProjectReport
+from model.report import Report
+from model.project_report import ProjectReport
 NO_PROJECTS_FOUND_MESSAGE = 'No projects found'
 
 class OutdatedRequirementsReporter:

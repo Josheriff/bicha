@@ -35,36 +35,6 @@ with description('Outdated requirements reporter') as self:
     with context('when projects found'):
         with before.each:
             when(self.version_checker).is_outdated(OUTDATED_REQUIREMENT).returns(True)
-        with context('all requirements up to date'):
-            with it('reports nothing'):
-                when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_REQUIREMENTS])
-                report = self.reporter.generate_report()
-               
-                empty_report = Report()
-                expect(report).to(equal(empty_report))
-
-        with context('a requirement is outdated'):
-            with it('reports the project outdated and the requirement'):
-                when(self.projects_finder).find_all().returns([PROJECT_WITH_OUTDATED_REQUIREMENTS])
-
-                report = self.reporter.generate_report()
-
-                outdated_project_report = ProjectReport(project_name=PROJECT_WITH_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])
-                expected_report = Report()
-                expected_report.add_project_report(outdated_project_report)
-                expect(report).to(equal(expected_report))
-
-        with context('some project has up to date and outdated requirements'):
-            with it('reports just the outdated requirements'):
-                when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS])
-
-                report = self.reporter.generate_report()
-
-                project_report = ProjectReport(project_name=PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])
-                expected_report = Report()
-                expected_report.add_project_report(project_report)
-                expect(report).to(equal(expected_report))
-
         with context('and project with all requirements up to date'):
             with context('and project with all requirements outdated'):
                 with context('and project with some requirements up to date and some outdated'):

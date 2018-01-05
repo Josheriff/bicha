@@ -2,13 +2,13 @@ from mamba import description, context, it, before
 from doublex import Stub, when
 from expects import expect, equal
 
-from projects_finder import ProjectsFinder
 from model.project import Project
 from model.project_report import ProjectReport
 from model.report import Report
-from version_checker import VersionChecker
-from outdated_requirements_reporter import (OutdatedRequirementsReporter,
-                                        NO_PROJECTS_FOUND_MESSAGE)
+from services.version_checker import VersionChecker
+from services.projects_finder import ProjectsFinder
+from services.outdated_requirements_reporter import (OutdatedRequirementsReporter,
+                                                     NO_PROJECTS_FOUND_MESSAGE)
 
 EMPTY_PROJECTS_LIST = []
 PROJECT_WITH_UP_TO_DATE_REQUIREMENTS = Project(project_name='project_with_up_to_date_requirements', requirements=['an_up_to_date_requirement'])

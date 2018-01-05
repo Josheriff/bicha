@@ -11,9 +11,11 @@ from services.outdated_requirements_reporter import (OutdatedRequirementsReporte
                                                      NO_PROJECTS_FOUND_MESSAGE)
 
 EMPTY_PROJECTS_LIST = []
-PROJECT_WITH_UP_TO_DATE_REQUIREMENTS = Project(project_name='project_with_up_to_date_requirements', requirements=['an_up_to_date_requirement'])
+UP_TO_DATE_REQUIREMENT = 'an_up_to_date_requirement'
 OUTDATED_REQUIREMENT = 'an_outdated_requirement'
+PROJECT_WITH_UP_TO_DATE_REQUIREMENTS = Project(project_name='project_with_up_to_date_requirements', requirements=[UP_TO_DATE_REQUIREMENT])
 PROJECT_WITH_OUTDATED_REQUIREMENTS = Project(project_name='project_with_outdated_requirements', requirements=[OUTDATED_REQUIREMENT])
+PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS = Project(project_name='project_with_mixed_requirements', requirements=[UP_TO_DATE_REQUIREMENT, OUTDATED_REQUIREMENT])
 
 with description('Outdated requirements reporter') as self:
     with before.each:
@@ -49,4 +51,16 @@ with description('Outdated requirements reporter') as self:
                 outdated_project_report = ProjectReport(project_name=PROJECT_WITH_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])
                 expected_report = Report()
                 expected_report.add_project_report(outdated_project_report)
+                expect(report).to(equal(expected_report))
+
+        with context('some project has up to date and outdated requirements'):
+            with it('reports just the outdated requirements'):
+                when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS])
+                when(self.version_checker).is_outdated(OUTDATED_REQUIREMENT).returns(True)
+
+                report = self.reporter.generate_report()
+
+                project_report = ProjectReport(project_name=PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS.project_name, outdated_requirements=[OUTDATED_REQUIREMENT])
+                expected_report = Report()
+                expected_report.add_project_report(project_report)
                 expect(report).to(equal(expected_report))

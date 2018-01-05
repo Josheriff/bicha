@@ -33,6 +33,8 @@ with description('Outdated requirements reporter') as self:
             expect(report).to(equal(expected_report))
 
     with context('when projects found'):
+        with before.each:
+            when(self.version_checker).is_outdated(OUTDATED_REQUIREMENT).returns(True)
         with context('all requirements up to date'):
             with it('reports nothing'):
                 when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_REQUIREMENTS])
@@ -44,7 +46,6 @@ with description('Outdated requirements reporter') as self:
         with context('a requirement is outdated'):
             with it('reports the project outdated and the requirement'):
                 when(self.projects_finder).find_all().returns([PROJECT_WITH_OUTDATED_REQUIREMENTS])
-                when(self.version_checker).is_outdated(OUTDATED_REQUIREMENT).returns(True)
 
                 report = self.reporter.generate_report()
 
@@ -56,7 +57,6 @@ with description('Outdated requirements reporter') as self:
         with context('some project has up to date and outdated requirements'):
             with it('reports just the outdated requirements'):
                 when(self.projects_finder).find_all().returns([PROJECT_WITH_UP_TO_DATE_AND_OUTDATED_REQUIREMENTS])
-                when(self.version_checker).is_outdated(OUTDATED_REQUIREMENT).returns(True)
 
                 report = self.reporter.generate_report()
 
